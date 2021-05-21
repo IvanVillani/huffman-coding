@@ -1,0 +1,180 @@
+///////////STEP 1///////////
+
+	The process of encoding begins with separation of the ASCII symbols
+	and then counting the frequency of every symbol.
+	Below are the sorted symbols of your input text, sorted
+	in according to the ASCII table and their frequencies.
+
+ ----------------- 
+|     Frequency   |
+|                 |
+|    [ ] -> 6     |
+|    [.] -> 1     |
+|    [A] -> 10    |
+|    [C] -> 1     |
+|    [L] -> 2     |
+|    [M] -> 2     |
+|    [N] -> 4     |
+|    [P] -> 2     |
+|                 |
+ ----------------- 
+
+
+
+///////////STEP 2///////////
+
+	The next step is to find the code lenghts of the values.
+	In order to do that, we perform merging of lists. We create
+	these lists by assigning zero code lenghts to the values.
+	The merging happens between the two lists with the smallest
+	frequencies and by that the frequency of the new list becomes
+	the sum of the merged lists frequencies.
+
+--- ITERATION 1:
+	        List 0:
+		       [' ' 0] with freq = 6
+	        List 1:
+		       ['.' 0] with freq = 1
+	        List 2:
+		       ['A' 0] with freq = 10
+	        List 3:
+		       ['C' 0] with freq = 1
+	        List 4:
+		       ['L' 0] with freq = 2
+	        List 5:
+		       ['M' 0] with freq = 2
+	        List 6:
+		       ['N' 0] with freq = 4
+	        List 7:
+		       ['P' 0] with freq = 2
+  ***Based on the combined frequency of the lists we decide to merge list 3 and list 1
+
+
+
+--- ITERATION 2:
+	        List 0:
+		       [' ' 0] with freq = 6
+	        List 2:
+		       ['A' 0] with freq = 10
+	        List 3:
+		       ['C' 1] ['.' 1] with freq = 2
+	        List 4:
+		       ['L' 0] with freq = 2
+	        List 5:
+		       ['M' 0] with freq = 2
+	        List 6:
+		       ['N' 0] with freq = 4
+	        List 7:
+		       ['P' 0] with freq = 2
+  ***Based on the combined frequency of the lists we decide to merge list 7 and list 5
+
+
+
+--- ITERATION 3:
+	        List 0:
+		       [' ' 0] with freq = 6
+	        List 2:
+		       ['A' 0] with freq = 10
+	        List 3:
+		       ['C' 1] ['.' 1] with freq = 2
+	        List 4:
+		       ['L' 0] with freq = 2
+	        List 6:
+		       ['N' 0] with freq = 4
+	        List 7:
+		       ['P' 1] ['M' 1] with freq = 4
+  ***Based on the combined frequency of the lists we decide to merge list 4 and list 3
+
+
+
+--- ITERATION 4:
+	        List 0:
+		       [' ' 0] with freq = 6
+	        List 2:
+		       ['A' 0] with freq = 10
+	        List 4:
+		       ['L' 1] ['C' 2] ['.' 2] with freq = 4
+	        List 6:
+		       ['N' 0] with freq = 4
+	        List 7:
+		       ['P' 1] ['M' 1] with freq = 4
+  ***Based on the combined frequency of the lists we decide to merge list 7 and list 6
+
+
+
+--- ITERATION 5:
+	        List 0:
+		       [' ' 0] with freq = 6
+	        List 2:
+		       ['A' 0] with freq = 10
+	        List 4:
+		       ['L' 1] ['C' 2] ['.' 2] with freq = 4
+	        List 7:
+		       ['P' 2] ['M' 2] ['N' 1] with freq = 8
+  ***Based on the combined frequency of the lists we decide to merge list 4 and list 0
+
+
+
+--- ITERATION 6:
+	        List 2:
+		       ['A' 0] with freq = 10
+	        List 4:
+		       ['L' 2] ['C' 3] ['.' 3] [' ' 1] with freq = 10
+	        List 7:
+		       ['P' 2] ['M' 2] ['N' 1] with freq = 8
+  ***Based on the combined frequency of the lists we decide to merge list 7 and list 4
+
+
+
+--- ITERATION 7:
+	        List 2:
+		       ['A' 0] with freq = 10
+	        List 7:
+		       ['P' 3] ['M' 3] ['N' 2] ['L' 3] ['C' 4] ['.' 4] [' ' 2] with freq = 18
+  ***Based on the combined frequency of the lists we decide to merge list 2 and list 7
+
+
+
+--- ITERATION 8:
+	        List 2:
+		       ['A' 1] ['P' 4] ['M' 4] ['N' 3] ['L' 4] ['C' 5] ['.' 5] [' ' 3] with freq = 28
+
+
+
+///////////STEP 3///////////
+
+	The next step is to create huffman codes from
+	the given code lenghts, using binary incrementation and shifting.
+	The Huffman codes should be with unique prefixes to enable decoding.
+
+ --------------------------------- 
+|           Huffman Codes         |
+|                                 |
+|    [A] -> 1    ===> 0           |
+|    [ ] -> 3    ===> 100         |
+|    [N] -> 3    ===> 101         |
+|    [L] -> 4    ===> 1100        |
+|    [M] -> 4    ===> 1101        |
+|    [P] -> 4    ===> 1110        |
+|    [.] -> 5    ===> 11110       |
+|    [C] -> 5    ===> 11111       |
+|                                 |
+ --------------------------------- 
+
+
+
+///////////STEP 4///////////
+
+	The final step is to assemble the encoded binary representation of
+	the input text. Except the encoded text, a prefix must be appended to
+	the result, containing information for decoding it.
+
+  --- The number of distinct characters in the encoded text (16-bit number):
+	[0000000000001000]
+  --- The maximum lenght of the encoded representation of code lenghts:
+	[00000011]
+  --- The sequence of the characters and their associated code lenght, for example the first one:
+	character -> [01000001]   code lenght -> [1]
+
+  And the final encoded result is:
+000000000000100000000011010000010010010000001101001110011010011001000100110110001010000100001011101010100001110101001101010110001001110110001011000100111110101011001001110010101101011110

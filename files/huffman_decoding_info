@@ -1,0 +1,46 @@
+///////////STEP 2///////////
+
+	The process of decoding begins with extracting prefix
+	from the encoded string. Doing this will allow us
+	to recreate the tables of code lenghts and then the Huffman codes.
+
+  --- Taking the first 16 bits, which are showing the number of distinct characters:
+	binary -> [0000000000001000]   count of distinct -> 8
+  --- Taking the next 8 bits, which are showing the maximum lenght of the encoded representation of code lenghts:
+	binary -> [00000011]   code lenght size -> 3
+  --- Taking the sequence of the characters and their associated code lenght, for example the first one:
+	character in binary -> [01000001] = [A]
+	code lenght in binary -> [001] = 1
+
+
+
+///////////STEP 2///////////
+
+	The next step is to create huffman codes from
+	the given code lenghts, using binary incrementation and shifting.
+	The Huffman codes should be with unique prefixes.
+
+ --------------------------------- 
+|           Huffman Codes         |
+|                                 |
+|    [A] -> 1    ===> 0           |
+|    [ ] -> 3    ===> 100         |
+|    [N] -> 3    ===> 101         |
+|    [L] -> 4    ===> 1100        |
+|    [M] -> 4    ===> 1101        |
+|    [P] -> 4    ===> 1110        |
+|    [.] -> 5    ===> 11110       |
+|    [C] -> 5    ===> 11111       |
+|                                 |
+ --------------------------------- 
+
+
+
+///////////STEP 3///////////
+
+	Now that we have everything that we need we start
+	iterating over the binary sequence and decode the string.
+	A match is when the largest binary sequence persist in the table.
+
+  And the final decoded result is:
+A MAN A PLAN A CANAL PANAMA.
